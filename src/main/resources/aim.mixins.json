@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "su.alek.aim.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "aim.refmap.json",
+  "mixins": [
+    "MixinEggItem",
+    "MixinPlayer"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
