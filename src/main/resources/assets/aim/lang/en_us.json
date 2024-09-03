@@ -6,5 +6,6 @@
   "aim.hold_shift": "Hold LEFT_SHIFT...",
   "item.aim.example_item": "Test Item",
   "item.aim.scale_ray": "Zoom Ray",
-  "item.aim.debug_gravity_controller": "Debug Gravity Controller"
+  "item.aim.debug_gravity_controller": "Debug Gravity Controller",
+  "block.aim.example_block": "Test Block"
 }

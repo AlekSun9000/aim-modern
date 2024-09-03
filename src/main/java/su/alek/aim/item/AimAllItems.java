@@ -12,14 +12,24 @@ import su.alek.aim.AimModMain;
 import java.util.function.Supplier;
 
 public class AimAllItems {
-    ///////////
-    // ITEMS //
-    ///////////
+    ////////////////////////
+    // DEFERRED REGISTERS //
+    ////////////////////////
     // Create a Deferred Register to hold Items which will all be registered under the "aim" namespace
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(AimModMain.MODID);
-    // Creates a new food item with the id "aim:example_id", nutrition 1 and saturation 2
-    public static final DeferredItem<Item> EXAMPLE_ITEM = AimAllItems.ITEMS.registerSimpleItem("example_item", new Item.Properties().food(new FoodProperties.Builder()
-            .alwaysEdible().nutrition(1).saturationModifier(2f).build()));
+    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "aim" namespace
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, AimModMain.MODID);
+    /////////////////////
+    // NON-BLOCK ITEMS //
+    /////////////////////
+    // Creates a new food item with the id "aim:example_item", nutrition 1 and saturation 2
+    public static final DeferredItem<Item> EXAMPLE_ITEM = AimAllItems.ITEMS.registerItem(
+            "example_item",
+            ItemTest::new,
+            new Item.Properties().food(
+                    new FoodProperties.Builder().alwaysEdible().nutrition(1).saturationModifier(2f).build()
+            )
+    );
     public static final Supplier<Item> SCALE_RAY = ITEMS.registerItem(
             "scale_ray",
             ItemScaleRay::new,
@@ -33,8 +43,6 @@ public class AimAllItems {
     ///////////////////
     // CREATIVE TABS //
     ///////////////////
-    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "aim" namespace
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, AimModMain.MODID);
     // Creates a creative tab with the id "aim:common" for the example item, that is placed after the combat tab
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = AimAllItems.CREATIVE_MODE_TABS.register("common", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.aim.common")) //The language key for the title of your CreativeModeTab

@@ -7,9 +7,6 @@ import com.mojang.logging.LogUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -27,11 +24,9 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
-import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
-import net.neoforged.neoforge.registries.DeferredRegister;
 import su.alek.aim.item.AimAllItems;
-import su.alek.aim.tile.AimAllBlocks;
+import su.alek.aim.block.AimAllBlocks;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(AimModMain.MODID)
@@ -41,18 +36,6 @@ public class AimModMain
     public static final String MODID = "aim";
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
-    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
-
-
-    // Creates a new Block with the id "aim:example_block", combining the namespace and path
-    public static final DeferredBlock<Block> EXAMPLE_BLOCK = AimAllBlocks.BLOCKS.registerSimpleBlock("example_block", BlockBehaviour.Properties.of().mapColor(MapColor.STONE));
-    // Creates a new BlockItem with the id "aim:example_block", combining the namespace and path
-    public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = AimAllItems.ITEMS.registerSimpleBlockItem("example_block", EXAMPLE_BLOCK);
-
-
-
-
-
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public AimModMain(IEventBus modEventBus, ModContainer modContainer)
@@ -96,7 +79,7 @@ public class AimModMain
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
-            event.accept(EXAMPLE_BLOCK_ITEM);
+            event.accept(AimAllBlocks.EXAMPLE_BLOCK_ITEM);
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
