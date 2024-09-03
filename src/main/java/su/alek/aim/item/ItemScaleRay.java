@@ -32,11 +32,13 @@ public class ItemScaleRay extends Item {
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand){
         AttributeInstance ai = pPlayer.getAttribute(Attributes.SCALE);
-        if (ai.hasModifier(SCALE_RAY_REG)){
+        if (ai != null && ai.hasModifier(SCALE_RAY_REG)) {
             ai.removeModifier(SCALE_RAY_REG);
-        }else {
+            return InteractionResultHolder.success(pPlayer.getItemInHand(pUsedHand));
+        }else if (ai != null){
             ai.addPermanentModifier(new AttributeModifier(SCALE_RAY_REG,-0.5, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+            return InteractionResultHolder.success(pPlayer.getItemInHand(pUsedHand));
         }
-        return InteractionResultHolder.success(pPlayer.getItemInHand(pUsedHand));
+        return InteractionResultHolder.fail(pPlayer.getItemInHand(pUsedHand));
     }
 }

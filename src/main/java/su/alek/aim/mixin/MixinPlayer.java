@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Player.class)
-public class MixinPlayer {
+public abstract class MixinPlayer {
     @Inject(method = "die",at=@At("HEAD"), cancellable = true)
     public void die(DamageSource pCause, CallbackInfo ci){
         ci.cancel();

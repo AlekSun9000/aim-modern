@@ -1,3 +1,10 @@
 {
-  "itemGroup.aim_common": "Lightening Power | Common"
+  "itemGroup.aim.common": "Lightening Power | Common",
+  "aim.creative_flight_on": "Creative Flight On!",
+  "aim.creative_flight_off": "Creative Flight Off!",
+  "aim.debug_creative_flight_description": "Right click to enable or disable creative flight",
+  "aim.hold_shift": "Hold LEFT_SHIFT...",
+  "item.aim.example_item": "Test Item",
+  "item.aim.scale_ray": "Zoom Ray",
+  "item.aim.debug_gravity_controller": "Debug Gravity Controller"
 }
