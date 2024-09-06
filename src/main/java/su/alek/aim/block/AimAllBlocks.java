@@ -2,6 +2,7 @@ package su.alek.aim.block;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -9,6 +10,8 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import su.alek.aim.AimModMain;
 import su.alek.aim.item.AimAllItems;
+
+import java.util.function.Supplier;
 
 public class AimAllBlocks {
     ////////////////////////
@@ -26,4 +29,6 @@ public class AimAllBlocks {
     /////////////////
     // Creates a new BlockItem with the id "aim:example_block", combining the namespace and path
     public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = AimAllItems.ITEMS.registerSimpleBlockItem("example_block", EXAMPLE_BLOCK);
+    public static final DeferredItem<BlockItem> MINECRAFT_END_PORTAL = AimAllItems.ITEMS.registerSimpleBlockItem("end_portal", () -> Blocks.END_PORTAL);
+    public static final DeferredItem<BlockItem> MINECRAFT_PORTAL = AimAllItems.ITEMS.registerSimpleBlockItem("portal", () -> Blocks.NETHER_PORTAL);
 }

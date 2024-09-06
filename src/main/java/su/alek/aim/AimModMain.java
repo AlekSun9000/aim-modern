@@ -78,8 +78,11 @@ public class AimModMain
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
+        if (event.getTabKey() == CreativeModeTabs.OP_BLOCKS) {
             event.accept(AimAllBlocks.EXAMPLE_BLOCK_ITEM);
+            event.accept(AimAllBlocks.MINECRAFT_END_PORTAL);
+            event.accept(AimAllBlocks.MINECRAFT_PORTAL);
+        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
