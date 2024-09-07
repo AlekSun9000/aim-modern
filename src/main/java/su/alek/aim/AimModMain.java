@@ -27,6 +27,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import su.alek.aim.item.AimAllItems;
 import su.alek.aim.block.AimAllBlocks;
+import su.alek.aim.menu.AimAllMenus;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(AimModMain.MODID)
@@ -43,6 +44,10 @@ public class AimModMain
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
+        // Register the Deferred Register to the mod event bus so menus get registered
+        AimAllMenus.MENU.register(modEventBus);
+        // Register the Deferred Register to the mod event bus so block_entities get registered
+        AimAllBlocks.BLOCK_ENTITIES.register(modEventBus);
         // Register the Deferred Register to the mod event bus so blocks get registered
         AimAllBlocks.BLOCKS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so items get registered

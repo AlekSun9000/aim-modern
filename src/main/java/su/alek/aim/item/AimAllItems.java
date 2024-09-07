@@ -8,10 +8,11 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import su.alek.aim.AimModMain;
+import su.alek.aim.block.AimAllBlocks;
 
 import java.util.function.Supplier;
 
-public class AimAllItems {
+public final class AimAllItems {
     ////////////////////////
     // DEFERRED REGISTERS //
     ////////////////////////
@@ -52,5 +53,6 @@ public class AimAllItems {
                 output.accept(new ItemStack(EXAMPLE_ITEM.get())); // Add the example item to the tab. For your own tabs, this method is preferred over the event
                 output.accept(SCALE_RAY.get());
                 output.accept(DEBUG_GRAVITY_CONTROLLER.get());
+                output.accept(AimAllBlocks.MILL_ITEM);
             }).build());
 }
