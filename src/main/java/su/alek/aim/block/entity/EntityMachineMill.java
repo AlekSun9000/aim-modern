@@ -1,6 +1,7 @@
 package su.alek.aim.block.entity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.state.BlockState;
 import su.alek.aim.block.AimAllBlocks;
@@ -18,5 +19,10 @@ public class EntityMachineMill extends EntityAbstractMachine44{
     @Override
     public HashMap<HashSet<Item>, Recipe44> getRecipe() {
         return RecipeMaps.MILL_RECIPE;
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return Component.translatable("screen.aim.mill");
     }
 }

@@ -2,9 +2,16 @@ package su.alek.aim.block.entity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -13,24 +20,49 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import su.alek.aim.AimModMain;
+import su.alek.aim.gui.menu.MenuMachine44;
 import su.alek.aim.recipe.Recipe44;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public abstract class EntityAbstractMachine44 extends BlockEntity implements WorldlyContainer {
+public abstract class EntityAbstractMachine44 extends BlockEntity implements WorldlyContainer, MenuProvider {
+    public int _test;
     public static ItemStack[] emptySlot = new ItemStack[4];
     //public NonNullList<ItemStack> items = NonNullList.withSize(8,ItemStack.EMPTY);
     public ItemStack[] input = new ItemStack[4];
     public ItemStack[] output = new ItemStack[4];
     public int recipeTime;
     public int workTime;
-    public ItemStack[] recipeItems;
+    public ItemStack[] recipeItems = new ItemStack[4];
     public boolean paused;
+    public ContainerData data = new ContainerData() {
+        @Override
+        public int get(int pIndex) {
+            return _test;
+        }
+
+        @Override
+        public void set(int pIndex, int pValue) {
+            _test = pValue;
+        }
+
+        @Override
+        public int getCount() {
+            return 1;
+        }
+    };
     static {
         for (int i=0;i<4;i++){
             emptySlot[i] = ItemStack.EMPTY;
+        }
+    }
+    {
+        for (int i=0;i<4;i++){
+            input[i] = ItemStack.EMPTY;
+            output[i] = ItemStack.EMPTY;
+            recipeItems[i] = ItemStack.EMPTY;
         }
     }
 
@@ -124,6 +156,7 @@ public abstract class EntityAbstractMachine44 extends BlockEntity implements Wor
     }
 
     public static void serverTick(Level pLevel, BlockPos pos, BlockState state, EntityAbstractMachine44 blockEntity){
+        blockEntity._test++;
         if (!blockEntity.paused){
             if (Arrays.equals(blockEntity.recipeItems, emptySlot)){
                 if (Recipe44.matches(blockEntity.input, blockEntity.getRecipe()) && Recipe44.canConsume(blockEntity.input,blockEntity.getRecipe())){
@@ -142,5 +175,40 @@ public abstract class EntityAbstractMachine44 extends BlockEntity implements Wor
                 }
             }
         }
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
+        AimModMain.LOGGER.debug(String.format("%d", _test));
+        return new MenuMachine44(pContainerId, pPlayerInventory, this, data);
+    }
+
+    @Override
+    protected void loadAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
+        super.loadAdditional(pTag, pRegistries);
+        this.paused = pTag.getBoolean("paused");
+        NonNullList<ItemStack> items = NonNullList.withSize(8, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(pTag, items, pRegistries);
+        for (int i = 0; i < 8; i++) {
+            this.setItem(i, items.get(i));
+        }
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
+        super.saveAdditional(pTag, pRegistries);
+        NonNullList<ItemStack> items = NonNullList.withSize(8, ItemStack.EMPTY);
+        pTag.putBoolean("paused", paused);
+        if (!Arrays.equals(this.recipeItems, emptySlot)){
+            this.output = this.recipeItems;
+            for (int i = 0; i < 4; i++){
+                this.recipeItems[i] = emptySlot[i].copy();
+            }
+        }
+        for (int i = 0; i < 8; i++) {
+            items.set(i, this.getItem(i));
+        }
+        ContainerHelper.saveAllItems(pTag, items, pRegistries);
     }
 }

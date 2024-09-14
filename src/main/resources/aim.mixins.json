@@ -6,7 +6,8 @@
   "refmap": "aim.refmap.json",
   "mixins": [
     "MixinEggItem",
-    "MixinPlayer"
+    "MixinPlayer",
+    "MixinPlayerList"
   ],
   "client": [
   ],

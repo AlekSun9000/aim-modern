@@ -7,5 +7,6 @@
   "item.aim.example_item": "Test Item",
   "item.aim.scale_ray": "Zoom Ray",
   "item.aim.debug_gravity_controller": "Debug Gravity Controller",
-  "block.aim.example_block": "Test Block"
+  "block.aim.example_block": "Test Block",
+  "screen.aim.mill": "ISA Mill"
 }
