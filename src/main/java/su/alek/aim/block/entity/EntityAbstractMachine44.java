@@ -18,8 +18,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import su.alek.aim.AimModMain;
 import su.alek.aim.gui.menu.MenuMachine44;
 import su.alek.aim.recipe.Recipe44;
 
@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public abstract class EntityAbstractMachine44 extends BlockEntity implements WorldlyContainer, MenuProvider {
-    public int _test;
     public static ItemStack[] emptySlot = new ItemStack[4];
     //public NonNullList<ItemStack> items = NonNullList.withSize(8,ItemStack.EMPTY);
     public ItemStack[] input = new ItemStack[4];
@@ -40,17 +39,27 @@ public abstract class EntityAbstractMachine44 extends BlockEntity implements Wor
     public ContainerData data = new ContainerData() {
         @Override
         public int get(int pIndex) {
-            return _test;
+            return switch (pIndex) {
+                case 0 -> workTime;
+                case 1 -> recipeTime;
+                default -> 0;
+            };
         }
 
         @Override
         public void set(int pIndex, int pValue) {
-            _test = pValue;
+            if (pIndex == 0){
+                workTime=pValue;
+            }else if (pIndex == 1){
+                recipeTime = pValue;
+            }else {
+                throw new IndexOutOfBoundsException(String.format("Index %d out of bound %d", pIndex, 2));
+            }
         }
 
         @Override
         public int getCount() {
-            return 1;
+            return 2;
         }
     };
     static {
@@ -78,16 +87,16 @@ public abstract class EntityAbstractMachine44 extends BlockEntity implements Wor
     }
 
     @Override
-    public boolean canPlaceItemThroughFace(int pIndex, ItemStack pItemStack, @Nullable Direction pDirection) {
+    public boolean canPlaceItemThroughFace(int pIndex, @NotNull ItemStack pItemStack, @Nullable Direction pDirection) {
         return pIndex <= 3;
     }
 
     @Override
-    public boolean canTakeItemThroughFace(int pIndex, ItemStack pStack, Direction pDirection) {
+    public boolean canTakeItemThroughFace(int pIndex, @NotNull ItemStack pStack, @NotNull Direction pDirection) {
         return pIndex >= 4;
     }
     @Override
-    public int[] getSlotsForFace(Direction pSide) {
+    public int @NotNull [] getSlotsForFace(@NotNull Direction pSide) {
         return new int[]{0, 1, 2, 3, 4, 5, 6, 7};
     }
 
@@ -97,44 +106,41 @@ public abstract class EntityAbstractMachine44 extends BlockEntity implements Wor
     }
 
     @Override
-    public ItemStack getItem(int pSlot) {
-        if (pSlot <=3){
+    public @NotNull ItemStack getItem(int pSlot) {
+        if (pSlot >=0 && pSlot <=3){
             return input[pSlot];
-        }else {
+        }else if (pSlot <=7){
             return output[pSlot -4];
         }
-    }
-
-    @Override
-    public ItemStack removeItem(int pSlot, int pAmount) {
-        ItemStack stack;
-        if (pSlot < 4){
-            stack = input[pSlot];
-        }else {
-            stack = output[pSlot - 4];
-        }
-        int count = stack.getCount();
-        stack.setCount(count>=pAmount ? count-pAmount : 0);
-        ItemStack returnStack = stack.copy();
-        returnStack.setCount(Math.min(count,pAmount));
-        return returnStack;
-    }
-
-    @Override
-    public ItemStack removeItemNoUpdate(int pSlot) {
-        if (pSlot < 4){
-            ItemStack stack = input[pSlot];
-            input[pSlot] = ItemStack.EMPTY;
-            return stack;
-        }else {
-            ItemStack stack = output[pSlot - 4];
-            output[pSlot - 4] = ItemStack.EMPTY;
-            return stack;
+        else {
+            throw new IndexOutOfBoundsException(pSlot);
         }
     }
 
     @Override
-    public void setItem(int pSlot, ItemStack pStack) {
+    public @NotNull ItemStack removeItem(int pSlot, int pAmount) {
+        NonNullList<ItemStack> itemStacks = NonNullList.withSize(8, ItemStack.EMPTY);
+        for (int i = 0; i < 8; i++) {
+            itemStacks.set(i, this.getItem(i));
+        }
+        ItemStack itemStack = ContainerHelper.removeItem(itemStacks, pSlot, pAmount);
+        if (!itemStack.isEmpty()) {
+            this.setChanged();
+        }
+        return itemStack;
+    }
+
+    @Override
+    public @NotNull ItemStack removeItemNoUpdate(int pSlot) {
+        NonNullList<ItemStack> itemStacks = NonNullList.withSize(8, ItemStack.EMPTY);
+        for (int i = 0; i < 8; i++) {
+            itemStacks.set(i, this.getItem(i));
+        }
+        return ContainerHelper.takeItem(itemStacks, pSlot);
+    }
+
+    @Override
+    public void setItem(int pSlot, @NotNull ItemStack pStack) {
         if (pSlot < 4){
             input[pSlot] = pStack;
         }else {
@@ -143,7 +149,7 @@ public abstract class EntityAbstractMachine44 extends BlockEntity implements Wor
     }
 
     @Override
-    public boolean stillValid(Player pPlayer) {
+    public boolean stillValid(@NotNull Player pPlayer) {
         return true;
     }
 
@@ -156,7 +162,6 @@ public abstract class EntityAbstractMachine44 extends BlockEntity implements Wor
     }
 
     public static void serverTick(Level pLevel, BlockPos pos, BlockState state, EntityAbstractMachine44 blockEntity){
-        blockEntity._test++;
         if (!blockEntity.paused){
             if (Arrays.equals(blockEntity.recipeItems, emptySlot)){
                 if (Recipe44.matches(blockEntity.input, blockEntity.getRecipe()) && Recipe44.canConsume(blockEntity.input,blockEntity.getRecipe())){
@@ -168,10 +173,14 @@ public abstract class EntityAbstractMachine44 extends BlockEntity implements Wor
             }else {
                 ++blockEntity.workTime;
                 if (blockEntity.workTime >= blockEntity.recipeTime){
-                    blockEntity.output = blockEntity.recipeItems;
+                    for (int i = 0; i < 4; i++) {
+                        blockEntity.output[i] = blockEntity.recipeItems[i].copy();
+                    }
                     for (int i = 0;i < 4;i++){
                         blockEntity.recipeItems[i] = emptySlot[i].copy();
                     }
+                    blockEntity.workTime = 0;
+                    blockEntity.recipeTime = 0;
                 }
             }
         }
@@ -179,35 +188,38 @@ public abstract class EntityAbstractMachine44 extends BlockEntity implements Wor
 
     @Nullable
     @Override
-    public AbstractContainerMenu createMenu(int pContainerId, Inventory pPlayerInventory, Player pPlayer) {
-        AimModMain.LOGGER.debug(String.format("%d", _test));
-        return new MenuMachine44(pContainerId, pPlayerInventory, this, data);
+    public AbstractContainerMenu createMenu(int pContainerId, @NotNull Inventory pPlayerInventory, @NotNull Player pPlayer) {
+        return new MenuMachine44(pContainerId, pPlayerInventory, this, this.data);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
+    protected void loadAdditional(@NotNull CompoundTag pTag, HolderLookup.@NotNull Provider pRegistries) {
         super.loadAdditional(pTag, pRegistries);
         this.paused = pTag.getBoolean("paused");
-        NonNullList<ItemStack> items = NonNullList.withSize(8, ItemStack.EMPTY);
+        this.workTime = pTag.getInt("workTime");
+        this.recipeTime = pTag.getInt("recipeTime");
+        NonNullList<ItemStack> items = NonNullList.withSize(12, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(pTag, items, pRegistries);
         for (int i = 0; i < 8; i++) {
             this.setItem(i, items.get(i));
         }
+        for (int i = 8; i < 12; i++) {
+            this.recipeItems[i-8] = items.get(i);
+        }
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag, HolderLookup.Provider pRegistries) {
+    protected void saveAdditional(@NotNull CompoundTag pTag, HolderLookup.@NotNull Provider pRegistries) {
         super.saveAdditional(pTag, pRegistries);
-        NonNullList<ItemStack> items = NonNullList.withSize(8, ItemStack.EMPTY);
+        NonNullList<ItemStack> items = NonNullList.withSize(12, ItemStack.EMPTY);
         pTag.putBoolean("paused", paused);
-        if (!Arrays.equals(this.recipeItems, emptySlot)){
-            this.output = this.recipeItems;
-            for (int i = 0; i < 4; i++){
-                this.recipeItems[i] = emptySlot[i].copy();
-            }
-        }
+        pTag.putInt("workTime", workTime);
+        pTag.putInt("recipeTime",recipeTime);
         for (int i = 0; i < 8; i++) {
             items.set(i, this.getItem(i));
+        }
+        for (int i = 8; i < 12; i++) {
+            items.set(i, this.recipeItems[i-8]);
         }
         ContainerHelper.saveAllItems(pTag, items, pRegistries);
     }

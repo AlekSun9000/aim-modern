@@ -12,6 +12,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import su.alek.aim.AimModMain;
 
 public class ItemScaleRay extends Item {
@@ -20,17 +21,21 @@ public class ItemScaleRay extends Item {
         super(pProperties);
     }
     @Override
-    public InteractionResult interactLivingEntity(ItemStack pStack, Player pPlayer, LivingEntity pInteractionTarget, InteractionHand pUsedHand){
+    public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack pStack, @NotNull Player pPlayer, LivingEntity pInteractionTarget, @NotNull InteractionHand pUsedHand){
         AttributeInstance ai = pInteractionTarget.getAttribute(Attributes.SCALE);
-        if (ai.hasModifier(SCALE_RAY_REG)) {
-            ai.removeModifier(SCALE_RAY_REG);
-        }else {
+        if (ai != null){
+            if (ai.hasModifier(SCALE_RAY_REG)) {
+                ai.removeModifier(SCALE_RAY_REG);
+            }else {
             ai.addPermanentModifier(new AttributeModifier(SCALE_RAY_REG,-0.5, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+            }
+        }else {
+            return InteractionResult.PASS;
         }
         return InteractionResult.SUCCESS;
     }
     @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand){
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand){
         AttributeInstance ai = pPlayer.getAttribute(Attributes.SCALE);
         if (ai != null && ai.hasModifier(SCALE_RAY_REG)) {
             ai.removeModifier(SCALE_RAY_REG);

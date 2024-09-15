@@ -21,8 +21,8 @@ public final class RecipeMaps {
                 new Item[]{Items.STONE      , Items.AIR, Items.AIR, Items.AIR},
                 new int[] {1                , 0        , 0        , 0        },
                 new Item[]{Items.COBBLESTONE, Items.AIR, Items.AIR, Items.AIR},
-                new int[] {1                , 0        , 0        , 0        },
-                200
+                new int[] {1                , 1        , 0        , 0        },
+                20
                 );
     }
 }

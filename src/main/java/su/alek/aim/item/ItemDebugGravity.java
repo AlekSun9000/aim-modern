@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.NeoForgeMod;
+import org.jetbrains.annotations.NotNull;
 import su.alek.aim.AimModMain;
 import su.alek.aim.interfac.KeyHandler;
 import su.alek.aim.interfac.ServerTool;
@@ -24,7 +25,7 @@ public class ItemDebugGravity extends Item {
         super(pProperties);
     }
     @Override
-    public void appendHoverText(ItemStack pStack, Item.TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
+    public void appendHoverText(@NotNull ItemStack pStack, Item.@NotNull TooltipContext pContext, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pTooltipFlag) {
         super.appendHoverText(pStack,pContext,pTooltipComponents,pTooltipFlag);
         if (KeyHandler.keyPressed(340)){
             pTooltipComponents.add(Component.translatable("aim.debug_creative_flight_description"));
@@ -33,7 +34,7 @@ public class ItemDebugGravity extends Item {
         }
     }
     @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, @NotNull Player pPlayer, @NotNull InteractionHand pUsedHand) {
         super.use(pLevel,pPlayer,pUsedHand);
         AttributeInstance ai = pPlayer.getAttribute(NeoForgeMod.CREATIVE_FLIGHT);
         if (ai != null && ai.hasModifier(GRAVITY_CONTROL)) {
