@@ -1,5 +1,6 @@
 package su.alek.aim.item;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -14,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import su.alek.aim.AimModMain;
+import su.alek.aim.interfac.ServerTool;
 
 public class ItemScaleRay extends Item {
     private final ResourceLocation SCALE_RAY_REG = ResourceLocation.fromNamespaceAndPath(AimModMain.MODID,"scale_ray");
@@ -22,6 +24,10 @@ public class ItemScaleRay extends Item {
     }
     @Override
     public @NotNull InteractionResult interactLivingEntity(@NotNull ItemStack pStack, @NotNull Player pPlayer, LivingEntity pInteractionTarget, @NotNull InteractionHand pUsedHand){
+        if (AimModMain.teacon_mode){
+            ServerTool.message(pPlayer, Component.literal("You can't use this in Teacon"));
+            return InteractionResult.FAIL;
+        }
         AttributeInstance ai = pInteractionTarget.getAttribute(Attributes.SCALE);
         if (ai != null){
             if (ai.hasModifier(SCALE_RAY_REG)) {
@@ -36,6 +42,10 @@ public class ItemScaleRay extends Item {
     }
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, Player pPlayer, @NotNull InteractionHand pUsedHand){
+        if (AimModMain.teacon_mode){
+            ServerTool.message(pPlayer, Component.literal("You can't use this in Teacon"));
+            return InteractionResultHolder.fail(pPlayer.getItemInHand(pUsedHand));
+        }
         AttributeInstance ai = pPlayer.getAttribute(Attributes.SCALE);
         if (ai != null && ai.hasModifier(SCALE_RAY_REG)) {
             ai.removeModifier(SCALE_RAY_REG);

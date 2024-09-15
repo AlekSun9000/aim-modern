@@ -36,6 +36,10 @@ public class ItemDebugGravity extends Item {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, @NotNull Player pPlayer, @NotNull InteractionHand pUsedHand) {
         super.use(pLevel,pPlayer,pUsedHand);
+        if (AimModMain.teacon_mode){
+            ServerTool.message(pPlayer, Component.literal("You can't use this in Teacon"));
+            return InteractionResultHolder.fail(pPlayer.getItemInHand(pUsedHand));
+        }
         AttributeInstance ai = pPlayer.getAttribute(NeoForgeMod.CREATIVE_FLIGHT);
         if (ai != null && ai.hasModifier(GRAVITY_CONTROL)) {
             ai.removeModifier(GRAVITY_CONTROL);
