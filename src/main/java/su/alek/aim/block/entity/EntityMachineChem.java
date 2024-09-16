@@ -12,18 +12,18 @@ import su.alek.aim.recipe.RecipeMaps;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class EntityMachineMill extends EntityAbstractMachine44{
-    public EntityMachineMill(BlockPos pPos, BlockState pBlockState) {
-        super(AimAllBlocks.MILL_E.get(), pPos, pBlockState);
+public class EntityMachineChem extends EntityAbstractMachine44{
+    public EntityMachineChem(BlockPos pPos, BlockState pBlockState) {
+        super(AimAllBlocks.CHEM_E.get(), pPos, pBlockState);
     }
 
     @Override
     public HashMap<HashSet<Item>, Recipe44> getRecipe() {
-        return RecipeMaps.MILL_RECIPE;
+        return RecipeMaps.CHEMICAL_PLANT_RECIPE;
     }
 
     @Override
     public @NotNull Component getDisplayName() {
-        return Component.translatable("block.aim.mill");
+        return Component.translatable("block.aim.chem");
     }
 }

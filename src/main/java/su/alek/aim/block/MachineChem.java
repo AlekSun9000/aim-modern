@@ -8,22 +8,22 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import su.alek.aim.block.entity.EntityMachineMill;
+import su.alek.aim.block.entity.EntityMachineChem;
 
-public class MachineMill extends AbstractMachine44 {
-    protected MachineMill(Properties pProperties) {
+public class MachineChem extends AbstractMachine44{
+    protected MachineChem(Properties pProperties) {
         super(pProperties);
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
-        return new EntityMachineMill(pPos, pState);
+        return new EntityMachineChem(pPos, pState);
     }
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level pLevel, @NotNull BlockState pState, @NotNull BlockEntityType<T> pBlockEntityType) {
-        return createBlockEntityTicker(pLevel, pBlockEntityType, AimAllBlocks.MILL_E.get());
+        return createBlockEntityTicker(pLevel, pBlockEntityType, AimAllBlocks.CHEM_E.get());
     }
 }

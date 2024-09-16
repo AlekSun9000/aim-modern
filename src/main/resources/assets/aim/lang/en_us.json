@@ -1,5 +1,6 @@
 {
-  "itemGroup.aim.common": "Lightening Power | Common",
+  "itemGroup.aim.common": "AIM | Common",
+  "itemGroup.aim.material": "AIM | Material",
   "aim.creative_flight_on": "Creative Flight On!",
   "aim.creative_flight_off": "Creative Flight Off!",
   "aim.debug_creative_flight_description": "Right click to enable or disable creative flight",
@@ -8,5 +9,6 @@
   "item.aim.scale_ray": "Zoom Ray",
   "item.aim.debug_gravity_controller": "Debug Gravity Controller",
   "block.aim.example_block": "Test Block",
-  "screen.aim.mill": "ISA Mill"
+  "block.aim.chem": "Chemical Plant",
+  "block.aim.mill": "Mill"
 }

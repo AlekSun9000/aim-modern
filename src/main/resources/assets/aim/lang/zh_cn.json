@@ -1,0 +1,13 @@
+{
+  "itemGroup.aim.common": "AIM | Common",
+  "aim.creative_flight_on": "开启创造飞行",
+  "aim.creative_flight_off": "关闭创造飞行",
+  "aim.debug_creative_flight_description": "右键开关创造飞行权限",
+  "aim.hold_shift": "按住shift...",
+  "item.aim.example_item": "Test Item",
+  "item.aim.scale_ray": "缩小射线",
+  "item.aim.debug_gravity_controller": "Debug重力控制器",
+  "block.aim.example_block": "Test Block",
+  "block.aim.chem": "化工厂",
+  "block.aim.mill": "家用破壁机"
+}

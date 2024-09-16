@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "aim:block/chem", "y": 180 },
+    "facing=east":  { "model": "aim:block/chem", "y":  270 },
+    "facing=south": { "model": "aim:block/chem", "y": 0 },
+    "facing=west":  { "model": "aim:block/chem", "y": 90 }
+  }
+}

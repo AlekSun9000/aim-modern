@@ -16,13 +16,22 @@ public final class RecipeMaps {
     public static HashMap<HashSet<Item>, Recipe44> CHEMICAL_PLANT_RECIPE = new HashMap<>();
     public static HashMap<HashSet<Item>, Recipe44> CRYSTAL_RECIPE = new HashMap<>();
     static {
+        /////////////////
+        // MILL RECIPE //
+        /////////////////
         addRecipe(
                 MILL_RECIPE,
-                new Item[]{Items.STONE      , Items.COBBLESTONE, Items.AIR, Items.AIR},
-                new int[] {1                , 2        , 0        , 0        },
+                new Item[]{Items.STONE      , Items.AIR, Items.AIR, Items.AIR},
+                new int[] {1                , 0        , 0        , 0        },
                 new Item[]{Items.COBBLESTONE, Items.AIR, Items.AIR, Items.AIR},
-                new int[] {1                , 1        , 0        , 0        },
+                new int[] {1                , 0        , 0        , 0        },
                 20
                 );
+        ///////////////////////////
+        // CHEMICAL PLANT RECIPE //
+        ///////////////////////////
+        ////////////////////
+        // ROASTER RECIPE //
+        ////////////////////
     }
 }
