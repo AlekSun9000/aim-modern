@@ -1,11 +1,15 @@
 package su.alek.aim.block;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -13,6 +17,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import su.alek.aim.AimModMain;
 import su.alek.aim.block.entity.EntityMachineChem;
 import su.alek.aim.block.entity.EntityMachineMill;
+import su.alek.aim.block.entity.TileEntityMultiHelper;
 
 import static su.alek.aim.item.AimAllItems.ITEMS;
 
@@ -34,11 +39,13 @@ public final class AimAllBlocks {
     public static final DeferredBlock<MachineChem> CHEM = BLOCKS.register("chem", () -> new MachineChem(BlockBehaviour.Properties.of()));
     public static final DeferredBlock<Block> COLOR_STEEL_BLOCK = BLOCKS.registerSimpleBlock("color_steel_block", BlockBehaviour.Properties.of());
     public static final DeferredBlock<Block> ALUMINIUM_BLOCK = BLOCKS.registerSimpleBlock("aluminium_block", BlockBehaviour.Properties.of());
+    public static final DeferredBlock<BlockMultiHelper> HELPER_BLOCK = BLOCKS.register("multi_helper", () -> new BlockMultiHelper(BlockBehaviour.Properties.of().noCollission()));
     ////////////////////
     // BLOCK ENTITIES //
     ////////////////////
     public static final Supplier<BlockEntityType<EntityMachineMill>> MILL_E = BLOCK_ENTITIES.register("mill_te", () -> BlockEntityType.Builder.of(EntityMachineMill::new, MILL.get()).build(null));
     public static final Supplier<BlockEntityType<EntityMachineChem>> CHEM_E = BLOCK_ENTITIES.register("chem_te", () -> BlockEntityType.Builder.of(EntityMachineChem::new, CHEM.get()).build(null));
+    public static final Supplier<BlockEntityType<TileEntityMultiHelper>> HELPER_E = BLOCK_ENTITIES.register("helper_te", () -> BlockEntityType.Builder.of(TileEntityMultiHelper::new, HELPER_BLOCK.get()).build(null));
     /////////////////
     // BLOCK ITEMS //
     /////////////////

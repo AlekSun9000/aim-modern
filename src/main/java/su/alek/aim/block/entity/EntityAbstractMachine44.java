@@ -1,10 +1,8 @@
 package su.alek.aim.block.entity;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
+import net.minecraft.core.*;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.WorldlyContainer;
@@ -17,9 +15,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import su.alek.aim.AimModMain;
+import su.alek.aim.block.AbstractMachine44;
 import su.alek.aim.gui.menu.MenuMachine44;
 import su.alek.aim.recipe.Recipe44;
 
@@ -36,6 +37,9 @@ public abstract class EntityAbstractMachine44 extends BlockEntity implements Wor
     public int workTime;
     public ItemStack[] recipeItems = new ItemStack[4];
     public boolean paused;
+    public boolean charged;
+    public boolean hasFreeSlot;
+    public BlockPos lighteningRodPos;
     public ContainerData data = new ContainerData() {
         @Override
         public int get(int pIndex) {
@@ -77,6 +81,7 @@ public abstract class EntityAbstractMachine44 extends BlockEntity implements Wor
 
     public EntityAbstractMachine44(BlockEntityType<?> pType, BlockPos pPos, BlockState pBlockState) {
         super(pType, pPos, pBlockState);
+        this.charged = AimModMain.teacon_mode;
     }
 
     public abstract HashMap<HashSet<Item>, Recipe44> getRecipe();
@@ -166,12 +171,17 @@ public abstract class EntityAbstractMachine44 extends BlockEntity implements Wor
             if (Arrays.equals(blockEntity.recipeItems, emptySlot)){
                 if (Recipe44.matches(blockEntity.input, blockEntity.getRecipe()) && Recipe44.canConsume(blockEntity.input,blockEntity.getRecipe())){
                     blockEntity.recipeTime = Recipe44.getTime(blockEntity.input, blockEntity.getRecipe());
-                    blockEntity.workTime = 1;
+                    if (blockEntity.charged){
+                        blockEntity.workTime = 1;
+                    }else {
+                        blockEntity.workTime = 0;
+                    }
                     blockEntity.recipeItems = Recipe44.getResult(blockEntity.input,blockEntity.getRecipe());
                     Recipe44.consumeByRecipe(blockEntity.input,blockEntity.getRecipe());
                 }
             }else {
-                ++blockEntity.workTime;
+                if (blockEntity.charged)
+                    ++blockEntity.workTime;
                 if (blockEntity.workTime >= blockEntity.recipeTime){
                     for (int i = 0; i < 4; i++) {
                         blockEntity.output[i] = blockEntity.recipeItems[i].copy();
@@ -181,6 +191,34 @@ public abstract class EntityAbstractMachine44 extends BlockEntity implements Wor
                     }
                     blockEntity.workTime = 0;
                     blockEntity.recipeTime = 0;
+                }
+            }
+            ///////////////
+            // 自动物品IO //
+            //////////////
+            Direction direction = state.getValue(AbstractMachine44.HORIZONTAL_FACING);
+            Vec3i offset;
+            switch (direction){
+                case EAST:offset = new Vec3i(1,0,1);break;
+                case SOUTH:offset = new Vec3i(1,0,-1);break;
+                case WEST:offset = new Vec3i(-1,0,-1);break;
+                case NORTH:offset = new Vec3i(-1,0,1);break;
+                default:return;
+            }
+            // input
+            BlockPos inputPos = pos.offset(0,2,0);
+            if (pLevel.getBlockEntity(inputPos) instanceof Container container){
+                for (int i = 0; i < container.getContainerSize(); i++) {
+                    ItemStack leftOver = HopperBlockEntity.addItem(container, blockEntity, container.getItem(i), Direction.UP);
+                    container.setItem(i, leftOver);
+                }
+            }
+            // output
+            BlockPos outputPos = pos.offset(offset);
+            if (pLevel.getBlockEntity(outputPos) instanceof Container container){
+                for (int i = 0; i < 4; i++){
+                    ItemStack leftOver = HopperBlockEntity.addItem(blockEntity, container, blockEntity.getItem(i+4), direction.getOpposite());
+                    blockEntity.setItem(i+4, leftOver);
                 }
             }
         }

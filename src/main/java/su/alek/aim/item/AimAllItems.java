@@ -1,14 +1,19 @@
 package su.alek.aim.item;
 
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import su.alek.aim.AimModMain;
 import su.alek.aim.block.AimAllBlocks;
+import su.alek.aim.item.components.EnergySupplierPosRecord;
 
 import java.util.function.Supplier;
 
@@ -20,6 +25,11 @@ public final class AimAllItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(AimModMain.MODID);
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "aim" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, AimModMain.MODID);
+    public static final DeferredRegister.DataComponents DATA_COMPONENTS = DeferredRegister.createDataComponents(AimModMain.MODID);
+    //////////////////////////
+    // DATA COMPONENT TYPES //
+    //////////////////////////
+    public static final Supplier<DataComponentType<EnergySupplierPosRecord>> ENERGY_SUPPLIER = DATA_COMPONENTS.registerComponentType("energy_supplier", energySupplierPosRecordBuilder -> energySupplierPosRecordBuilder.persistent(EnergySupplierPosRecord.CODEC).networkSynchronized(EnergySupplierPosRecord.STREAM_CODEC));
     /////////////////////
     // NON-BLOCK ITEMS //
     /////////////////////
@@ -41,6 +51,11 @@ public final class AimAllItems {
             ItemDebugGravity::new,
             new Item.Properties().stacksTo(1).rarity(Rarity.EPIC)
     );
+    public static final Supplier<Item> ENERGY_CONNECTOR = ITEMS.registerItem(
+            "energy_connector",
+            ItemConnector::new,
+            new Item.Properties().stacksTo(1)
+    );
     /////////////
     // 工业原料 //
     ////////////
@@ -59,7 +74,12 @@ public final class AimAllItems {
     public static final Supplier<Item> UNIT_WATER = ITEMS.registerSimpleItem("unit_water");
     public static final Supplier<Item> UNIT_ROCK_SALT_WATER = ITEMS.registerSimpleItem("unit_rock_salt_water");
     public static final Supplier<Item> ROCK_SALT = ITEMS.registerSimpleItem("rock_salt");
-    public static final Supplier<Item> BRIQUET = ITEMS.registerSimpleItem("honeycomb_briquet");
+    public static final Supplier<Item> BRIQUET = ITEMS.registerItem("honeycomb_briquet", (properties) -> new Item(properties){
+        @Override
+        public int getBurnTime(@NotNull ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
+            return 6400;
+        }
+    });
     //////////////
     // 铝工业产线 //
     //////////////
@@ -76,13 +96,13 @@ public final class AimAllItems {
     public static final Supplier<Item> ALUMINIUM_OXIDE = ITEMS.registerSimpleItem("aluminium_oxide");
     public static final Supplier<Item> ALUMINIUM_CHLORIDE = ITEMS.registerSimpleItem("aluminium_chloride");// 无水
     public static final Supplier<Item> ALUMINIUM_CHLORIDE_CRYSTAL = ITEMS.registerSimpleItem("aluminium_chloride_crystal");// 水合
-    public static final Supplier<Item> ALUMINIUM_DUST = ITEMS.registerSimpleItem("aluminium_chloride_crystal");
+    public static final Supplier<Item> ALUMINIUM_DUST = ITEMS.registerSimpleItem("aluminium_dust");
     public static final Supplier<Item> ALUMINIUM_INGOT = ITEMS.registerSimpleItem("aluminium_ingot");
     public static final Supplier<Item> ELECTROLYTIC_ALUMINUM_INGOT = ITEMS.registerSimpleItem("electrolytic_aluminium_ingot");
     /////////
     // JKL //
     /////////
-    public static final Supplier<Item> JKL_CHLORINE = ITEMS.registerSimpleItem("jkl_mixture_chlorine");
+    public static final Supplier<Item> JKL_CHLORINE = ITEMS.registerItem("jkl_chlorine", ItemJkl::new);
     public static final Supplier<Item> APATITE = ITEMS.registerSimpleItem("apatite");
     public static final Supplier<Item> UNIT_NITROGEN_MONOXIDE = ITEMS.registerSimpleItem("unit_nitrogen_monoxide");
     public static final Supplier<Item> ZEOLITE = ITEMS.registerSimpleItem("zeolite");
@@ -105,6 +125,8 @@ public final class AimAllItems {
                 output.accept(AimAllBlocks.C_STEEL_ITEM);
                 output.accept(AimAllBlocks.ALUMINIUM_BLOCK_ITEM);
                 output.accept(JKL_CHLORINE.get());
+                output.accept(ENERGY_CONNECTOR.get());
+                output.accept(BRIQUET.get());
             }).build());
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MATERIAL_TAB = AimAllItems.CREATIVE_MODE_TABS.register("material", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.aim.material"))
@@ -148,6 +170,7 @@ public final class AimAllItems {
                 output.accept(ZEOLITE.get());
                 output.accept(UNIT_CALCIUM_CHLORIDE.get());
                 output.accept(UNIT_PHOSPHORIC_ACID.get());
+                output.accept(BRIQUET.get());
             }).build()
     );
 }

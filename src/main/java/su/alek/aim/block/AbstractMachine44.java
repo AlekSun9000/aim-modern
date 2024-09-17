@@ -3,15 +3,16 @@ package su.alek.aim.block;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
+import net.minecraft.core.Vec3i;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
-import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -24,6 +25,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import su.alek.aim.block.entity.EntityAbstractMachine44;
+import su.alek.aim.block.entity.TileEntityMultiHelper;
 
 public abstract class AbstractMachine44 extends BaseEntityBlock {
     public static final DirectionProperty HORIZONTAL_FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -34,8 +36,10 @@ public abstract class AbstractMachine44 extends BaseEntityBlock {
         );
     }
 
+    public abstract Vec3i[] getHelpers(Direction direction);
+
     @Override
-    protected RenderShape getRenderShape(BlockState pState) {
+    protected @NotNull RenderShape getRenderShape(BlockState pState) {
         return RenderShape.MODEL;
     }
 
@@ -68,5 +72,35 @@ public abstract class AbstractMachine44 extends BaseEntityBlock {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext pContext) {
         return this.defaultBlockState().setValue(HORIZONTAL_FACING, pContext.getHorizontalDirection().getOpposite());
+    }
+
+    @Override
+    protected void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pMovedByPiston) {
+        Vec3i[] helperOffsets;
+        if (pState.getBlock() instanceof AbstractMachine44 block){
+            helperOffsets = block.getHelpers(pState.getValue(HORIZONTAL_FACING));
+            for (Vec3i helperOffset : helperOffsets) {
+                BlockPos pos = pPos.offset(helperOffset);
+                pLevel.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
+                pLevel.destroyBlock(pos, false);
+            }
+        }
+        super.onRemove(pState, pLevel, pPos, pNewState, pMovedByPiston);
+    }
+
+    @Override
+    protected void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pMovedByPiston) {
+        Vec3i[] helperOffsets;
+        if (pState.getBlock() instanceof AbstractMachine44 block){
+            helperOffsets = block.getHelpers(pState.getValue(HORIZONTAL_FACING));
+            for (Vec3i helperOffset : helperOffsets){
+                BlockPos pos = pPos.offset(helperOffset);
+                pLevel.setBlock(pos, AimAllBlocks.HELPER_BLOCK.get().defaultBlockState(), 3);
+                TileEntityMultiHelper blockEntity = (TileEntityMultiHelper)(pLevel.getBlockEntity(pos));
+                blockEntity.setMainPos(pPos);
+                pLevel.setBlockEntity(blockEntity);
+            }
+        }
+        super.onPlace(pState, pLevel, pPos, pOldState, pMovedByPiston);
     }
 }

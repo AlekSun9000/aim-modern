@@ -1,6 +1,8 @@
 package su.alek.aim.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -13,6 +15,11 @@ import su.alek.aim.block.entity.EntityMachineMill;
 public class MachineMill extends AbstractMachine44 {
     protected MachineMill(Properties pProperties) {
         super(pProperties);
+    }
+
+    @Override
+    public Vec3i[] getHelpers(Direction direction) {
+        return new Vec3i[0];
     }
 
     @Nullable

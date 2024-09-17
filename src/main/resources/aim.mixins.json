@@ -5,7 +5,6 @@
   "compatibilityLevel": "JAVA_21",
   "refmap": "aim.refmap.json",
   "mixins": [
-    "MixinAbstractFurnaceBlockEntity"
   ],
   "client": [
   ],
