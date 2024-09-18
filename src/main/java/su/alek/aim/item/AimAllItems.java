@@ -1,10 +1,14 @@
 package su.alek.aim.item;
 
+import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -15,6 +19,8 @@ import su.alek.aim.AimModMain;
 import su.alek.aim.block.AimAllBlocks;
 import su.alek.aim.item.components.EnergySupplierPosRecord;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -27,6 +33,7 @@ public final class AimAllItems {
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "aim" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, AimModMain.MODID);
     public static final DeferredRegister.DataComponents DATA_COMPONENTS = DeferredRegister.createDataComponents(AimModMain.MODID);
+    public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIALS = DeferredRegister.create(Registries.ARMOR_MATERIAL, AimModMain.MODID);
     //////////////////////////
     // DATA COMPONENT TYPES //
     //////////////////////////
@@ -114,6 +121,21 @@ public final class AimAllItems {
     public static final Supplier<Item> ZEOLITE = ITEMS.registerSimpleItem("zeolite");
     public static final Supplier<Item> UNIT_CALCIUM_CHLORIDE = ITEMS.registerSimpleItem("unit_calcium_chloride");
     public static final Supplier<Item> UNIT_PHOSPHORIC_ACID = ITEMS.registerSimpleItem("unit_phosphoric_acid");
+    // equipments
+    public static HashMap<ArmorItem.Type,Integer> epic_defense = new HashMap<>();
+    static {
+        epic_defense.put(ArmorItem.Type.LEGGINGS, 24);
+    }
+    public static final Supplier<ArmorMaterial> EPIC_ARMOR_MATERIAL = ARMOR_MATERIALS.register("epic", (resourceLocation -> new ArmorMaterial(
+            epic_defense,
+            0,
+            SoundEvents.ARMOR_EQUIP_NETHERITE,
+            ()->Ingredient.of(Items.AIR),
+            new ArrayList<>(),
+            114514.0f,
+            1.0f
+    )));
+    public static final Supplier<ArmorItem> EPIC_WEAPON = ITEMS.registerItem("epic_weapon", (properties -> new ArmorItem(Holder.direct(EPIC_ARMOR_MATERIAL.get()), ArmorItem.Type.LEGGINGS, properties)));
     ///////////////////
     // CREATIVE TABS //
     ///////////////////
@@ -133,6 +155,8 @@ public final class AimAllItems {
                 output.accept(JKL_CHLORINE.get());
                 output.accept(ENERGY_CONNECTOR.get());
                 output.accept(BRIQUET.get());
+                output.accept(EPIC_WEAPON.get());
+                output.accept(AimAllBlocks.TEST_TUBE_ITEM);
             }).build());
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MATERIAL_TAB = AimAllItems.CREATIVE_MODE_TABS.register("material", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.aim.material"))

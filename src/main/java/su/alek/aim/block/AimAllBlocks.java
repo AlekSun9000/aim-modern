@@ -42,6 +42,7 @@ public final class AimAllBlocks {
     public static final DeferredBlock<Block> ALUMINIUM_BLOCK = BLOCKS.registerSimpleBlock("aluminium_block", BlockBehaviour.Properties.of());
     public static final DeferredBlock<BlockMultiHelper> HELPER_BLOCK = BLOCKS.register("multi_helper", () -> new BlockMultiHelper(BlockBehaviour.Properties.of()));
     public static final DeferredBlock<BlockItemSorter> SORTER = BLOCKS.register("sorter", () -> new BlockItemSorter(BlockBehaviour.Properties.of()));
+    public static final DeferredBlock<BlockTube> TEST_TUBE = BLOCKS.register("test_tube", () -> new BlockTube(BlockBehaviour.Properties.of()));
     ////////////////////
     // BLOCK ENTITIES //
     ////////////////////
@@ -55,10 +56,11 @@ public final class AimAllBlocks {
     // Creates a new BlockItem with the id "aim:example_block", combining the namespace and path
     public static final DeferredItem<BlockItem> MINECRAFT_END_PORTAL = ITEMS.registerSimpleBlockItem("end_portal", () -> Blocks.END_PORTAL);
     public static final DeferredItem<BlockItem> MINECRAFT_PORTAL = ITEMS.registerSimpleBlockItem("portal", () -> Blocks.NETHER_PORTAL);
-    public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("example_block", EXAMPLE_BLOCK);
-    public static final DeferredItem<BlockItem> MILL_ITEM = ITEMS.registerSimpleBlockItem("mill",MILL);
-    public static final DeferredItem<BlockItem> CHEM_ITEM = ITEMS.registerSimpleBlockItem("chem", CHEM);
-    public static final DeferredItem<BlockItem> C_STEEL_ITEM = ITEMS.registerSimpleBlockItem("color_steel_block", COLOR_STEEL_BLOCK);
-    public static final DeferredItem<BlockItem> ALUMINIUM_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("aluminium_block", ALUMINIUM_BLOCK);
+    public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(EXAMPLE_BLOCK);
+    public static final DeferredItem<BlockItem> MILL_ITEM = ITEMS.registerSimpleBlockItem(MILL);
+    public static final DeferredItem<BlockItem> CHEM_ITEM = ITEMS.registerSimpleBlockItem(CHEM);
+    public static final DeferredItem<BlockItem> C_STEEL_ITEM = ITEMS.registerSimpleBlockItem(COLOR_STEEL_BLOCK);
+    public static final DeferredItem<BlockItem> ALUMINIUM_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(ALUMINIUM_BLOCK);
     public static final DeferredItem<BlockItem> SORTER_ITEM = ITEMS.registerSimpleBlockItem(SORTER);
+    public static final DeferredItem<BlockItem> TEST_TUBE_ITEM = ITEMS.registerSimpleBlockItem(TEST_TUBE);
 }
