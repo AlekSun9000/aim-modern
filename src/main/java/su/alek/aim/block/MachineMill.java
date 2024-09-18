@@ -19,7 +19,7 @@ public class MachineMill extends AbstractMachine44 {
 
     @Override
     public Vec3i[] getHelpers(Direction direction) {
-        return new Vec3i[0];
+        return new Vec3i[]{new Vec3i(0, 1, 0)};
     }
 
     @Nullable

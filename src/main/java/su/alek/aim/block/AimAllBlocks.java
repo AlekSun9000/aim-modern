@@ -17,6 +17,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import su.alek.aim.AimModMain;
 import su.alek.aim.block.entity.EntityMachineChem;
 import su.alek.aim.block.entity.EntityMachineMill;
+import su.alek.aim.block.entity.TileEntityItemSorter;
 import su.alek.aim.block.entity.TileEntityMultiHelper;
 
 import static su.alek.aim.item.AimAllItems.ITEMS;
@@ -39,13 +40,15 @@ public final class AimAllBlocks {
     public static final DeferredBlock<MachineChem> CHEM = BLOCKS.register("chem", () -> new MachineChem(BlockBehaviour.Properties.of()));
     public static final DeferredBlock<Block> COLOR_STEEL_BLOCK = BLOCKS.registerSimpleBlock("color_steel_block", BlockBehaviour.Properties.of());
     public static final DeferredBlock<Block> ALUMINIUM_BLOCK = BLOCKS.registerSimpleBlock("aluminium_block", BlockBehaviour.Properties.of());
-    public static final DeferredBlock<BlockMultiHelper> HELPER_BLOCK = BLOCKS.register("multi_helper", () -> new BlockMultiHelper(BlockBehaviour.Properties.of().noCollission()));
+    public static final DeferredBlock<BlockMultiHelper> HELPER_BLOCK = BLOCKS.register("multi_helper", () -> new BlockMultiHelper(BlockBehaviour.Properties.of()));
+    public static final DeferredBlock<BlockItemSorter> SORTER = BLOCKS.register("sorter", () -> new BlockItemSorter(BlockBehaviour.Properties.of()));
     ////////////////////
     // BLOCK ENTITIES //
     ////////////////////
     public static final Supplier<BlockEntityType<EntityMachineMill>> MILL_E = BLOCK_ENTITIES.register("mill_te", () -> BlockEntityType.Builder.of(EntityMachineMill::new, MILL.get()).build(null));
     public static final Supplier<BlockEntityType<EntityMachineChem>> CHEM_E = BLOCK_ENTITIES.register("chem_te", () -> BlockEntityType.Builder.of(EntityMachineChem::new, CHEM.get()).build(null));
     public static final Supplier<BlockEntityType<TileEntityMultiHelper>> HELPER_E = BLOCK_ENTITIES.register("helper_te", () -> BlockEntityType.Builder.of(TileEntityMultiHelper::new, HELPER_BLOCK.get()).build(null));
+    public static final Supplier<BlockEntityType<TileEntityItemSorter>> SORTER_E = BLOCK_ENTITIES.register("sorter_te", () -> BlockEntityType.Builder.of(TileEntityItemSorter::new, SORTER.get()).build(null));
     /////////////////
     // BLOCK ITEMS //
     /////////////////
@@ -57,4 +60,5 @@ public final class AimAllBlocks {
     public static final DeferredItem<BlockItem> CHEM_ITEM = ITEMS.registerSimpleBlockItem("chem", CHEM);
     public static final DeferredItem<BlockItem> C_STEEL_ITEM = ITEMS.registerSimpleBlockItem("color_steel_block", COLOR_STEEL_BLOCK);
     public static final DeferredItem<BlockItem> ALUMINIUM_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("aluminium_block", ALUMINIUM_BLOCK);
+    public static final DeferredItem<BlockItem> SORTER_ITEM = ITEMS.registerSimpleBlockItem(SORTER);
 }

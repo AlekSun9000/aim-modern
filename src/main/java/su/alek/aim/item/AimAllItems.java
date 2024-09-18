@@ -15,6 +15,7 @@ import su.alek.aim.AimModMain;
 import su.alek.aim.block.AimAllBlocks;
 import su.alek.aim.item.components.EnergySupplierPosRecord;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 public final class AimAllItems {
@@ -79,6 +80,11 @@ public final class AimAllItems {
         public int getBurnTime(@NotNull ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
             return 6400;
         }
+
+        @Override
+        public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
+            pTooltipComponents.add(Component.translatable("item.aim.honeycomb_briquet.info"));
+        }
     });
     //////////////
     // 铝工业产线 //
@@ -115,7 +121,7 @@ public final class AimAllItems {
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = AimAllItems.CREATIVE_MODE_TABS.register("common", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.aim.common")) //The language key for the title of your CreativeModeTab
             .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
+            .icon(() -> BRIQUET.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(new ItemStack(EXAMPLE_ITEM.get())); // Add the example item to the tab. For your own tabs, this method is preferred over the event
                 output.accept(SCALE_RAY.get());
