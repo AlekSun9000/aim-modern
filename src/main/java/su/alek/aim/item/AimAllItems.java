@@ -4,7 +4,6 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
@@ -17,7 +16,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import su.alek.aim.AimModMain;
 import su.alek.aim.block.AimAllBlocks;
-import su.alek.aim.item.components.EnergySupplierPosRecord;
+import su.alek.aim.item.components.AimAllComponents;
+import su.alek.aim.item.components.ItemColorRecord;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,12 +32,7 @@ public final class AimAllItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(AimModMain.MODID);
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "aim" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, AimModMain.MODID);
-    public static final DeferredRegister.DataComponents DATA_COMPONENTS = DeferredRegister.createDataComponents(AimModMain.MODID);
     public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIALS = DeferredRegister.create(Registries.ARMOR_MATERIAL, AimModMain.MODID);
-    //////////////////////////
-    // DATA COMPONENT TYPES //
-    //////////////////////////
-    public static final Supplier<DataComponentType<EnergySupplierPosRecord>> ENERGY_SUPPLIER = DATA_COMPONENTS.registerComponentType("energy_supplier", energySupplierPosRecordBuilder -> energySupplierPosRecordBuilder.persistent(EnergySupplierPosRecord.CODEC).networkSynchronized(EnergySupplierPosRecord.STREAM_CODEC));
     /////////////////////
     // NON-BLOCK ITEMS //
     /////////////////////
@@ -68,6 +63,7 @@ public final class AimAllItems {
     // 工业原料 //
     ////////////
     public static final Supplier<Item> UNIT_HYDROCHLORIC_ACID = ITEMS.registerSimpleItem("unit_hydrochloric_acid");
+    //public static final Supplier<Item> UNIT_HYDROCHLORIC_ACID = ITEMS.registerSimpleItem("unit_hydrochloric_acid", new Item.Properties().component(AimAllComponents.ITEM_COLOR, new ItemColorRecord(0x999999)));
     public static final Supplier<Item> UNIT_SULFURIC_ACID = ITEMS.registerSimpleItem("unit_sulfuric_acid");
     public static final Supplier<Item> UNIT_DILUTED_SULFURIC_ACID = ITEMS.registerSimpleItem("unit_diluted_sulfuric_acid");
     public static final Supplier<Item> UNIT_NITRIC_ACID = ITEMS.registerSimpleItem("unit_nitric_acid");
@@ -82,7 +78,7 @@ public final class AimAllItems {
     public static final Supplier<Item> UNIT_WATER = ITEMS.registerSimpleItem("unit_water");
     public static final Supplier<Item> UNIT_ROCK_SALT_WATER = ITEMS.registerSimpleItem("unit_rock_salt_water");
     public static final Supplier<Item> ROCK_SALT = ITEMS.registerSimpleItem("rock_salt");
-    public static final Supplier<Item> BRIQUET = ITEMS.registerItem("honeycomb_briquet", (properties) -> new Item(properties){
+    public static final Supplier<Item> BRIQUETTE = ITEMS.registerItem("honeycomb_briquette", (properties) -> new Item(properties){
         @Override
         public int getBurnTime(@NotNull ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
             return 6400;
@@ -90,7 +86,7 @@ public final class AimAllItems {
 
         @Override
         public void appendHoverText(ItemStack pStack, TooltipContext pContext, List<Component> pTooltipComponents, TooltipFlag pTooltipFlag) {
-            pTooltipComponents.add(Component.translatable("item.aim.honeycomb_briquet.info"));
+            pTooltipComponents.add(Component.translatable("item.aim.honeycomb_briquette.info"));
         }
     });
     //////////////
@@ -124,7 +120,7 @@ public final class AimAllItems {
     // equipments
     public static HashMap<ArmorItem.Type,Integer> epic_defense = new HashMap<>();
     static {
-        epic_defense.put(ArmorItem.Type.LEGGINGS, 24);
+        epic_defense.put(ArmorItem.Type.CHESTPLATE, 24);
     }
     public static final Supplier<ArmorMaterial> EPIC_ARMOR_MATERIAL = ARMOR_MATERIALS.register("epic", (resourceLocation -> new ArmorMaterial(
             epic_defense,
@@ -132,10 +128,10 @@ public final class AimAllItems {
             SoundEvents.ARMOR_EQUIP_NETHERITE,
             ()->Ingredient.of(Items.AIR),
             new ArrayList<>(),
-            114514.0f,
+            1978823.0f,
             1.0f
     )));
-    public static final Supplier<ArmorItem> EPIC_WEAPON = ITEMS.registerItem("epic_weapon", (properties -> new ArmorItem(Holder.direct(EPIC_ARMOR_MATERIAL.get()), ArmorItem.Type.LEGGINGS, properties)));
+    public static final Supplier<ArmorItem> EPIC_WEAPON = ITEMS.registerItem("epic_weapon", (properties -> new ArmorItem(Holder.direct(EPIC_ARMOR_MATERIAL.get()), ArmorItem.Type.CHESTPLATE, properties)));
     ///////////////////
     // CREATIVE TABS //
     ///////////////////
@@ -143,7 +139,7 @@ public final class AimAllItems {
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = AimAllItems.CREATIVE_MODE_TABS.register("common", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.aim.common")) //The language key for the title of your CreativeModeTab
             .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> BRIQUET.get().getDefaultInstance())
+            .icon(() -> BRIQUETTE.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(new ItemStack(EXAMPLE_ITEM.get())); // Add the example item to the tab. For your own tabs, this method is preferred over the event
                 output.accept(SCALE_RAY.get());
@@ -154,7 +150,7 @@ public final class AimAllItems {
                 output.accept(AimAllBlocks.ALUMINIUM_BLOCK_ITEM);
                 output.accept(JKL_CHLORINE.get());
                 output.accept(ENERGY_CONNECTOR.get());
-                output.accept(BRIQUET.get());
+                output.accept(BRIQUETTE.get());
                 output.accept(EPIC_WEAPON.get());
                 output.accept(AimAllBlocks.TEST_TUBE_ITEM);
             }).build());
@@ -200,7 +196,7 @@ public final class AimAllItems {
                 output.accept(ZEOLITE.get());
                 output.accept(UNIT_CALCIUM_CHLORIDE.get());
                 output.accept(UNIT_PHOSPHORIC_ACID.get());
-                output.accept(BRIQUET.get());
+                output.accept(BRIQUETTE.get());
             }).build()
     );
 }

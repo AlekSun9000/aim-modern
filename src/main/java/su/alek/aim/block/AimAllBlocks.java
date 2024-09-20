@@ -1,24 +1,25 @@
 package su.alek.aim.block;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.jetbrains.annotations.NotNull;
 import su.alek.aim.AimModMain;
 import su.alek.aim.block.entity.*;
 
 import static su.alek.aim.item.AimAllItems.ITEMS;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 public final class AimAllBlocks {
@@ -56,7 +57,12 @@ public final class AimAllBlocks {
     public static final DeferredItem<BlockItem> MINECRAFT_END_PORTAL = ITEMS.registerSimpleBlockItem("end_portal", () -> Blocks.END_PORTAL);
     public static final DeferredItem<BlockItem> MINECRAFT_PORTAL = ITEMS.registerSimpleBlockItem("portal", () -> Blocks.NETHER_PORTAL);
     public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(EXAMPLE_BLOCK);
-    public static final DeferredItem<BlockItem> MILL_ITEM = ITEMS.registerSimpleBlockItem(MILL);
+    public static final DeferredItem<BlockItem> MILL_ITEM = ITEMS.registerItem("mill", properties -> new BlockItem(MILL.get(), properties){
+        @Override
+        public void appendHoverText(@NotNull ItemStack pStack, @NotNull TooltipContext pContext, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pTooltipFlag) {
+            pTooltipComponents.add(Component.translatable("block.aim.mill.info"));
+        }
+    });
     public static final DeferredItem<BlockItem> CHEM_ITEM = ITEMS.registerSimpleBlockItem(CHEM);
     public static final DeferredItem<BlockItem> C_STEEL_ITEM = ITEMS.registerSimpleBlockItem(COLOR_STEEL_BLOCK);
     public static final DeferredItem<BlockItem> ALUMINIUM_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(ALUMINIUM_BLOCK);

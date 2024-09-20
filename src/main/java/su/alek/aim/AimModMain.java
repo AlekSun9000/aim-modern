@@ -24,6 +24,8 @@ import su.alek.aim.gui.client_screen.AimClientScreenRegEvent;
 import su.alek.aim.item.AimAllItems;
 import su.alek.aim.block.AimAllBlocks;
 import su.alek.aim.gui.menu.AimAllMenus;
+import su.alek.aim.item.AimItemColors;
+import su.alek.aim.item.components.AimAllComponents;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(AimModMain.MODID)
@@ -37,22 +39,16 @@ public class AimModMain
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
     public static final boolean test_mode = true;
     public static final boolean teacon_mode = true;
-    public AimModMain(IEventBus modEventBus, ModContainer modContainer)
-    {
+    public AimModMain(IEventBus modEventBus, ModContainer modContainer) {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 
-        // Register the Deferred Register to the mod event bus so menus get registered
+        //AimAllComponents.DATA_COMPONENTS.register(modEventBus);
         AimAllMenus.MENU.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so block_entities get registered
         AimAllBlocks.BLOCK_ENTITIES.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so blocks get registered
         AimAllBlocks.BLOCKS.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so items get registered
         AimAllItems.ITEMS.register(modEventBus);
-        // Register the Deferred Register to the mod event bus so tabs get registered
         AimAllItems.CREATIVE_MODE_TABS.register(modEventBus);
-
         AimAllItems.ARMOR_MATERIALS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
@@ -63,6 +59,7 @@ public class AimModMain
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
         modEventBus.addListener(AimClientScreenRegEvent::regScreens);
+        //modEventBus.addListener(AimItemColors::regItemColors);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
