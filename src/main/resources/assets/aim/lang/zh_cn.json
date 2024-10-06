@@ -57,5 +57,7 @@
   "item.aim.epic_weapon": "传奇球衣",
   "block.aim.test_tube": "BlockState测试方块",
   "block.aim.electrolyzer": "电解机",
-  "block.aim.iron_rod": "铁杆"
+  "block.aim.iron_rod": "铁杆",
+  "block.aim.tube_transmitter": "管道方块(WIP)",
+  "block.aim.operator": "物品交互方块(WIP)"
 }

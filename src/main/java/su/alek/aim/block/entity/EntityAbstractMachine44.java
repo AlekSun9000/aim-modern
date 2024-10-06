@@ -231,7 +231,7 @@ public abstract class EntityAbstractMachine44 extends BlockEntity implements Wor
     }
 
     @Override
-    protected void loadAdditional(@NotNull CompoundTag pTag, HolderLookup.@NotNull Provider pRegistries) {
+    public void loadAdditional(@NotNull CompoundTag pTag, HolderLookup.@NotNull Provider pRegistries) {
         super.loadAdditional(pTag, pRegistries);
         this.paused = pTag.getBoolean("paused");
         this.workTime = pTag.getInt("workTime");
@@ -247,7 +247,7 @@ public abstract class EntityAbstractMachine44 extends BlockEntity implements Wor
     }
 
     @Override
-    protected void saveAdditional(@NotNull CompoundTag pTag, HolderLookup.@NotNull Provider pRegistries) {
+    public void saveAdditional(@NotNull CompoundTag pTag, HolderLookup.@NotNull Provider pRegistries) {
         super.saveAdditional(pTag, pRegistries);
         NonNullList<ItemStack> items = NonNullList.withSize(12, ItemStack.EMPTY);
         pTag.putBoolean("paused", paused);

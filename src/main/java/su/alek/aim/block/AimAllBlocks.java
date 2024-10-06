@@ -22,6 +22,10 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.NotNull;
 import su.alek.aim.AimModMain;
 import su.alek.aim.block.entity.*;
+import su.alek.aim.block.entity.logistics.TileEntityOperator;
+import su.alek.aim.block.entity.logistics.TileEntityTube;
+import su.alek.aim.block.logistics.BlockTubeOperator;
+import su.alek.aim.block.logistics.BlockTubeTransmitter;
 
 import static su.alek.aim.item.AimAllItems.ITEMS;
 
@@ -48,7 +52,7 @@ public final class AimAllBlocks {
     public static final DeferredBlock<Block> ALUMINIUM_BLOCK = BLOCKS.registerSimpleBlock("aluminium_block", BlockBehaviour.Properties.of());
     public static final DeferredBlock<BlockMultiHelper> HELPER_BLOCK = BLOCKS.register("multi_helper", () -> new BlockMultiHelper(BlockBehaviour.Properties.of()));
     public static final DeferredBlock<BlockItemSorter> SORTER = BLOCKS.register("sorter", () -> new BlockItemSorter(BlockBehaviour.Properties.of()));
-    public static final DeferredBlock<BlockTube> TEST_TUBE = BLOCKS.register("test_tube", () -> new BlockTube(BlockBehaviour.Properties.of()));
+    //public static final DeferredBlock<BlockTube> TEST_TUBE = BLOCKS.register("test_tube", () -> new BlockTube(BlockBehaviour.Properties.of()));
     public static final DeferredBlock<InfBoxBlock> INF_BOX = BLOCKS.register("inf_box", ()->new InfBoxBlock(BlockBehaviour.Properties.of()));
     public static final DeferredBlock<MachineAluminiumElectrolyzer> ALE_BLOCK = BLOCKS.register("electrolyzer", () -> new MachineAluminiumElectrolyzer(BlockBehaviour.Properties.of()));
     //public static final DeferredBlock<Block> IRON_ROD_BLOCK = BLOCKS.registerSimpleBlock("iron_rod", Blocks.IRON_BLOCK.properties());
@@ -79,6 +83,8 @@ public final class AimAllBlocks {
             return pContext.isHoldingItem(IRON_ROD_ITEM.get()) ? Shapes.block() : voxelShape;
         }
     }, Blocks.IRON_BLOCK.properties());
+    public static final DeferredBlock<BlockTubeTransmitter> LOGISTICS_BLOCK = BLOCKS.registerBlock("tube_transmitter", BlockTubeTransmitter::new, BlockBehaviour.Properties.of());
+    public static final DeferredBlock<BlockTubeOperator> OPERATOR_BLOCK = BLOCKS.registerBlock("operator", BlockTubeOperator::new, BlockBehaviour.Properties.of());
     ////////////////////
     // BLOCK ENTITIES //
     ////////////////////
@@ -88,6 +94,8 @@ public final class AimAllBlocks {
     public static final Supplier<BlockEntityType<TileEntityItemSorter>> SORTER_E = BLOCK_ENTITIES.register("sorter_te", () -> BlockEntityType.Builder.of(TileEntityItemSorter::new, SORTER.get()).build(null));
     public static final Supplier<BlockEntityType<TileEntityInfBox>> INF_BOX_E = BLOCK_ENTITIES.register("inf_box", () -> BlockEntityType.Builder.of(TileEntityInfBox::new, INF_BOX.get()).build(null));
     public static final Supplier<BlockEntityType<EntityMachineElectrolyzer>> ALE_E = BLOCK_ENTITIES.register("electrolyzer", () -> BlockEntityType.Builder.of(EntityMachineElectrolyzer::new, ALE_BLOCK.get()).build(null));
+    public static final Supplier<BlockEntityType<TileEntityTube>> LOGISTICS_E = BLOCK_ENTITIES.register("logistics_tube", () -> BlockEntityType.Builder.of(TileEntityTube::new,LOGISTICS_BLOCK.get()).build(null));
+    public static final Supplier<BlockEntityType<TileEntityOperator>> OPERATOR_E = BLOCK_ENTITIES.register("operator_tube", () -> BlockEntityType.Builder.of(TileEntityOperator::new,OPERATOR_BLOCK.get()).build(null));
     /////////////////
     // BLOCK ITEMS //
     /////////////////
@@ -105,8 +113,10 @@ public final class AimAllBlocks {
     public static final DeferredItem<BlockItem> C_STEEL_ITEM = ITEMS.registerSimpleBlockItem(COLOR_STEEL_BLOCK);
     public static final DeferredItem<BlockItem> ALUMINIUM_BLOCK_ITEM = ITEMS.registerSimpleBlockItem(ALUMINIUM_BLOCK);
     public static final DeferredItem<BlockItem> SORTER_ITEM = ITEMS.registerSimpleBlockItem(SORTER);
-    public static final DeferredItem<BlockItem> TEST_TUBE_ITEM = ITEMS.registerSimpleBlockItem(TEST_TUBE);
+    //public static final DeferredItem<BlockItem> TEST_TUBE_ITEM = ITEMS.registerSimpleBlockItem(TEST_TUBE);
     public static final DeferredItem<BlockItem> INF_BOX_ITEM = ITEMS.registerSimpleBlockItem(INF_BOX);
     public static final DeferredItem<BlockItem> ALE_ITEM = ITEMS.registerSimpleBlockItem(ALE_BLOCK);
     public static final DeferredItem<BlockItem> IRON_ROD_ITEM = ITEMS.registerSimpleBlockItem(IRON_ROD_BLOCK);
+    public static final DeferredItem<BlockItem> LOGISTICS_ITEM = ITEMS.registerSimpleBlockItem(LOGISTICS_BLOCK);
+    public static final DeferredItem<BlockItem> OPERATOR_ITEM = ITEMS.registerSimpleBlockItem(OPERATOR_BLOCK);
 }

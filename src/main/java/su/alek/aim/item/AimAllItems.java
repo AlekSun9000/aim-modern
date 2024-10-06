@@ -152,9 +152,11 @@ public final class AimAllItems {
                 output.accept(ENERGY_CONNECTOR.get());
                 output.accept(BRIQUETTE.get());
                 output.accept(EPIC_WEAPON.get());
-                output.accept(AimAllBlocks.TEST_TUBE_ITEM);
+                //output.accept(AimAllBlocks.TEST_TUBE_ITEM);
                 output.accept(AimAllBlocks.ALE_ITEM);
                 output.accept(AimAllBlocks.IRON_ROD_ITEM);
+                output.accept(AimAllBlocks.LOGISTICS_ITEM);
+                output.accept(AimAllBlocks.OPERATOR_ITEM);
             }).build());
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MATERIAL_TAB = AimAllItems.CREATIVE_MODE_TABS.register("material", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.aim.material"))

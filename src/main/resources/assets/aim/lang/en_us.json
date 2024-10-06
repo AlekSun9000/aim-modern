@@ -57,5 +57,7 @@
   "block.aim.aluminium_block": "Aluminium Block",
   "item.aim.energy_connector": "Energy Connector",
   "item.aim.epic_weapon": "Epic Weapon",
-  "block.aim.test_tube": "Tube BlockState Test"
+  "block.aim.test_tube": "Tube BlockState Test",
+  "block.aim.tube_transmitter": "Logistics Pipe",
+  "block.aim.operator": "Operator Pipe"
 }
