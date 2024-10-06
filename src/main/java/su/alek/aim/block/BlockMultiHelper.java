@@ -11,6 +11,9 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import su.alek.aim.block.entity.TileEntityMultiHelper;
@@ -85,5 +88,10 @@ public class BlockMultiHelper extends Block implements EntityBlock {
                 pPlayer.openMenu(menuProvider);
         }
         return InteractionResult.SUCCESS_NO_ITEM_USED;
+    }
+
+    @Override
+    protected @NotNull VoxelShape getOcclusionShape(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos) {
+        return Shapes.empty();
     }
 }

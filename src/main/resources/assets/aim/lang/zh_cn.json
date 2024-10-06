@@ -55,5 +55,7 @@
   "block.aim.aluminium_block": "铝块",
   "item.aim.energy_connector": "能量连接器(连接机器与能量源(避雷针、电塔))",
   "item.aim.epic_weapon": "传奇球衣",
-  "block.aim.test_tube": "BlockState测试方块"
+  "block.aim.test_tube": "BlockState测试方块",
+  "block.aim.electrolyzer": "电解机",
+  "block.aim.iron_rod": "铁杆"
 }

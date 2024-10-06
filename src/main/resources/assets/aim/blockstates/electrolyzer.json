@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "aim:block/electrolyzer", "y": 0 },
+    "facing=east":  { "model": "aim:block/electrolyzer", "y":  90 },
+    "facing=south": { "model": "aim:block/electrolyzer", "y": 180 },
+    "facing=west":  { "model": "aim:block/electrolyzer", "y": 270 }
+  }
+}

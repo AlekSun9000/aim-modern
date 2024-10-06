@@ -1,15 +1,21 @@
 package su.alek.aim.block;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -19,6 +25,8 @@ import su.alek.aim.block.entity.*;
 
 import static su.alek.aim.item.AimAllItems.ITEMS;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -42,6 +50,35 @@ public final class AimAllBlocks {
     public static final DeferredBlock<BlockItemSorter> SORTER = BLOCKS.register("sorter", () -> new BlockItemSorter(BlockBehaviour.Properties.of()));
     public static final DeferredBlock<BlockTube> TEST_TUBE = BLOCKS.register("test_tube", () -> new BlockTube(BlockBehaviour.Properties.of()));
     public static final DeferredBlock<InfBoxBlock> INF_BOX = BLOCKS.register("inf_box", ()->new InfBoxBlock(BlockBehaviour.Properties.of()));
+    public static final DeferredBlock<MachineAluminiumElectrolyzer> ALE_BLOCK = BLOCKS.register("electrolyzer", () -> new MachineAluminiumElectrolyzer(BlockBehaviour.Properties.of()));
+    //public static final DeferredBlock<Block> IRON_ROD_BLOCK = BLOCKS.registerSimpleBlock("iron_rod", Blocks.IRON_BLOCK.properties());
+    public static final DeferredBlock<Block> IRON_ROD_BLOCK = BLOCKS.registerBlock("iron_rod", (properties) -> new Block(properties){
+        public static final VoxelShape voxelShape = Block.box(6.0, 0, 6.0, 10.0, 16.0, 10.0);
+
+        @Override
+        protected @NotNull VoxelShape getVisualShape(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos, @NotNull CollisionContext pContext) {
+            return voxelShape;
+        }
+
+
+        @Override
+        protected @NotNull VoxelShape getCollisionShape(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos, @NotNull CollisionContext pContext) {
+            return voxelShape;
+        }
+
+        @Override
+        protected @NotNull VoxelShape getOcclusionShape(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos) {
+            return voxelShape;
+        }
+
+        @Override
+        protected @NotNull VoxelShape getShape(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos, @NotNull CollisionContext pContext) {
+            if (pContext.equals(CollisionContext.empty())){
+                return Shapes.block();// 在计算光照时
+            }
+            return pContext.isHoldingItem(IRON_ROD_ITEM.get()) ? Shapes.block() : voxelShape;
+        }
+    }, Blocks.IRON_BLOCK.properties());
     ////////////////////
     // BLOCK ENTITIES //
     ////////////////////
@@ -50,6 +87,7 @@ public final class AimAllBlocks {
     public static final Supplier<BlockEntityType<TileEntityMultiHelper>> HELPER_E = BLOCK_ENTITIES.register("helper_te", () -> BlockEntityType.Builder.of(TileEntityMultiHelper::new, HELPER_BLOCK.get()).build(null));
     public static final Supplier<BlockEntityType<TileEntityItemSorter>> SORTER_E = BLOCK_ENTITIES.register("sorter_te", () -> BlockEntityType.Builder.of(TileEntityItemSorter::new, SORTER.get()).build(null));
     public static final Supplier<BlockEntityType<TileEntityInfBox>> INF_BOX_E = BLOCK_ENTITIES.register("inf_box", () -> BlockEntityType.Builder.of(TileEntityInfBox::new, INF_BOX.get()).build(null));
+    public static final Supplier<BlockEntityType<EntityMachineElectrolyzer>> ALE_E = BLOCK_ENTITIES.register("electrolyzer", () -> BlockEntityType.Builder.of(EntityMachineElectrolyzer::new, ALE_BLOCK.get()).build(null));
     /////////////////
     // BLOCK ITEMS //
     /////////////////
@@ -69,4 +107,6 @@ public final class AimAllBlocks {
     public static final DeferredItem<BlockItem> SORTER_ITEM = ITEMS.registerSimpleBlockItem(SORTER);
     public static final DeferredItem<BlockItem> TEST_TUBE_ITEM = ITEMS.registerSimpleBlockItem(TEST_TUBE);
     public static final DeferredItem<BlockItem> INF_BOX_ITEM = ITEMS.registerSimpleBlockItem(INF_BOX);
+    public static final DeferredItem<BlockItem> ALE_ITEM = ITEMS.registerSimpleBlockItem(ALE_BLOCK);
+    public static final DeferredItem<BlockItem> IRON_ROD_ITEM = ITEMS.registerSimpleBlockItem(IRON_ROD_BLOCK);
 }

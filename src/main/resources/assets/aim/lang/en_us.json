@@ -51,6 +51,8 @@
   "block.aim.chem": "Chemical Plant",
   "block.aim.mill": "Mill",
   "block.aim.mill.info": "",
+  "block.aim.electrolyzer": "Electrolyzer",
+  "block.aim.iron_rod": "Iron Rod",
   "block.aim.color_steel_block": "Color Steel Block",
   "block.aim.aluminium_block": "Aluminium Block",
   "item.aim.energy_connector": "Energy Connector",

@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "aim:block/mill", "y": 0 },
+    "facing=east":  { "model": "aim:block/mill", "y":  90 },
+    "facing=south": { "model": "aim:block/mill", "y": 180 },
+    "facing=west":  { "model": "aim:block/mill", "y": 270 }
+  }
+}

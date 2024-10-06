@@ -15,6 +15,7 @@ public final class RecipeMaps {
     public static HashMap<HashSet<Item>, Recipe44> DIGESTER_RECIPE = new HashMap<>();
     public static HashMap<HashSet<Item>, Recipe44> CHEMICAL_PLANT_RECIPE = new HashMap<>();
     public static HashMap<HashSet<Item>, Recipe44> CRYSTAL_RECIPE = new HashMap<>();
+    public static HashMap<HashSet<Item>, Recipe44> ALE_RECIPE = new HashMap<>();
     static {
         /////////////////
         // MILL RECIPE //
