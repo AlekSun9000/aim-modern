@@ -59,5 +59,13 @@
   "item.aim.epic_weapon": "Epic Weapon",
   "block.aim.test_tube": "Tube BlockState Test",
   "block.aim.tube_transmitter": "Logistics Pipe",
-  "block.aim.operator": "Operator Pipe"
+  "block.aim.operator": "Operator Pipe",
+  "block.aim.illager_plasma": "SteelDoor(TM) ILLASMA",
+  "block.aim.bio_lab": "Bio Lab",
+  "item.aim.life_base": "Single-crystal Life Base",
+  "item.aim.life_base_wafer": "Life Base Wafer",
+  "item.aim.illager_stem_cell_wafer": "Illager Stem Cell Wafer",
+  "item.aim.illager_stem_cell_wafer.description": "§cGo to deprecate your fucking low-speed RAID! §bTry Bio technology to produce §aberyllium§b!§r",
+  "block.aim.illager_egg": "Illager Egg",
+  "block.aim.illager.info": "I...i...it, isn't possible!"
 }

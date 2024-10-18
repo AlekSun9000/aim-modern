@@ -59,5 +59,13 @@
   "block.aim.electrolyzer": "电解机",
   "block.aim.iron_rod": "铁杆",
   "block.aim.tube_transmitter": "管道方块(WIP)",
-  "block.aim.operator": "物品交互方块(WIP)"
+  "block.aim.operator": "物品交互方块(WIP)",
+  "block.aim.illager_plasma": "钢门科技(TM) 刌浆",
+  "block.aim.bio_lab": "生物实验室",
+  "item.aim.life_base": "单晶生物载体",
+  "item.aim.life_base_wafer": "生物载体晶圆",
+  "item.aim.illager_stem_cell_wafer": "刌民干细胞晶圆",
+  "item.aim.illager_stem_cell_wafer.description": "§c把你那破烂袭击塔关了吧，§b生物科技产§a铍§b，分分钟产一千八！§r",
+  "block.aim.illager_egg": "刌民蛋",
+  "block.aim.illager.info": "§c这...这不可能！§r"
 }
